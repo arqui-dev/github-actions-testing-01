@@ -1,2 +1,4 @@
-# github-actions-testing-01
-Testing github actions in a controlled environment to not mess up with important stuff.
+# Testing GitHub Actions
+This repository is designed to test actions on different branches and check action logic
+## How to use
+Create the desired action and push it agains branches develop and main
