@@ -44,7 +44,7 @@ jobs:
         run: echo $NON_PROD_MESSAGE
   
   build-push-prod:
-    name: Post the message to non procution environment
+    name: Post the message to procution environment
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
