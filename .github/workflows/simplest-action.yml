@@ -1,0 +1,56 @@
+name: Simplest action to test conditions
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Select which package to deploy'
+        required: true
+        type: choice
+        options:
+          - subscriber
+          - admin
+        default: subscriber
+      environment:
+        description: 'Environment'
+        required: true
+        type: choice
+        options:
+          - production
+          - nonproduction
+  push:
+    branches:
+      - 'develop'
+    paths:
+      - '.github/workflows/simplest-action.yml'
+
+env:
+  DEFAULT_MESSAGE: 'Hello, World!'
+  NON_PROD_MESSAGE: 'Hello, Non-Production World!'
+  PROD_MESSAGE: 'Hello, Production World!'
+
+jobs:
+  build-push-nonprod:
+    name: Post the message to non procution environment
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'nonproduction')
+      || (github.ref == 'refs/heads/develop' && github.event_name != 'workflow_dispatch')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Runs console command
+        run: echo $NON_PROD_MESSAGE
+  
+  build-push-prod:
+    name: Post the message to non procution environment
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Runs console command
+        run: echo $PROD_MESSAGE
